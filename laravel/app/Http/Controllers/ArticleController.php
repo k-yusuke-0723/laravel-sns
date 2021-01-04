@@ -46,4 +46,11 @@ class ArticleController extends Controller
         return redirect()->route('articles.index');
     }
 
+    // 記事削除機能
+    public function destroy(Article $article) {
+
+        $article->delete();
+        return redirect()->route('articles.index');
+    }
+
 }
