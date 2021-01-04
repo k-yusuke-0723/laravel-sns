@@ -12,4 +12,6 @@
 */
 
 Auth::routes();
-Route::get('/', 'ArticleController@index');
+// Routeファサードにnameメソッドを繋げるとそのルーティングに名前が付けられる
+Route::get('/', 'ArticleController@index')->name('articles.index');
+Route::resource('/articles', 'ArticleController')->except(['index'])->middleware('auth');
