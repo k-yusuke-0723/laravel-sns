@@ -32,11 +32,18 @@ class ArticleController extends Controller
         return redirect()->route('articles.index');
     }
 
-    // 記事編集機能
+    // 記事編集画面
     public function edit(Article $article) {
 
         return view('articles.edit', ['article' => $article]);
 
+    }
+
+    // 記事編集機能
+    public function update(ArticleRequest $request, Article $article) {
+
+        $article->fill($request->all())->save();
+        return redirect()->route('articles.index');
     }
 
 }
