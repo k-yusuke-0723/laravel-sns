@@ -9,16 +9,19 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+    // 一覧
     public function index()
     {
         $articles = Article::all()->sortByDesc('created_at');
         return view('articles.index', ['articles' => $articles]);
     }
 
+    // 記事作成画面
     public function create() {
         return view('articles.create');
     }
 
+    // 記事投稿機能
     // 第一引数がArticleRequestクラスのインスタンスであることを宣言
     public function store(ArticleRequest $request, Article $article) {
 
@@ -27,6 +30,13 @@ class ArticleController extends Controller
         $article->user_id = $request->user()->id;
         $article->save();
         return redirect()->route('articles.index');
+    }
+
+    // 記事編集機能
+    public function edit(Article $article) {
+
+        return view('articles.edit', ['article' => $article]);
+
     }
 
 }
