@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+
+    // 各アクションのpolicyを参照しに行く
+    public function __construct()
+    {
+        $this->authorizeResource(Article::class, 'article');
+    }
+
     // 一覧
     public function index()
     {
