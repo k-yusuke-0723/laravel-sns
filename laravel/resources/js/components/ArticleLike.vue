@@ -7,6 +7,7 @@
             <i class="fas fa-heart mr-1"
             />
         </button>
+        10
     </div>
 </template>
 
