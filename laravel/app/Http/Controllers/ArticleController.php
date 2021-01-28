@@ -66,4 +66,28 @@ class ArticleController extends Controller
         return view('articles.show', ['article' => $article]);
     }
 
+    // いいね機能
+    public function like(Request $request, Article $article) {
+
+        // 二重でいいね出来ないようにdetach(削除)->attach(登録)するようにしている
+        // jsでの処理も行うが、サーバーサイドでも対策する
+        $article->likes()->detach($request->user()->id);
+        $article->likes()->attach($request->user()->id);
+
+        return [
+            'id' => $article->id,
+            'countLikes' => $article->count_likes,
+        ];
+    }
+
+    // いいね削除機能
+    public function unlike(Request $request, Article $article) {
+
+        $article->likes()->detach($request->user()->id);
+
+        return [
+            'id' => $article->id,
+            'countLikes' => $article->count_likes,
+        ];
+    }
 }

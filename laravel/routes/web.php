@@ -17,3 +17,9 @@ Route::get('/', 'ArticleController@index')->name('articles.index');
 // showアクションメソッドに対してauthミドルウェアを使わない
 Route::resource('/articles', 'ArticleController')->except(['index', 'show'])->middleware('auth');
 Route::resource('/articles', 'ArticleController')->only(['show']);
+
+// groupメソッドを使用
+Route::prefix('articles')->name('articles.')->group(function() {
+    Route::put('/{article}/like', 'ArticleController@like')->name('like')->middleware('auth');
+    Route::delete('/{article}/like', 'ArticleController@unlike')->name('unlike')->middleware('auth');
+});
