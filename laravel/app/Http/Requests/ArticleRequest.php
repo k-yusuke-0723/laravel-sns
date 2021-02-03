@@ -26,6 +26,7 @@ class ArticleRequest extends FormRequest
         return [
             'title' => 'required|max:50',
             'body' => 'required|max:500',
+            'tags' => 'json|regex:/^(?!.*\s).+$/u|regex:/^(?!.*\/).*$/u',
         ];
     }
 
@@ -34,6 +35,18 @@ class ArticleRequest extends FormRequest
         return [
             'title' => 'タイトル',
             'body' => '本文',
+            'tags' => 'タグ',
         ];
+    }
+
+    // フォームリクエストのバリデーションが成功後自動的に呼ばれるメソッド
+    public function passedValidation() {
+
+        $this->tags = collect(json_decode($this->tags))
+            // コレクションの要素が6個あっても、5個だけが残る
+            ->slice(0, 5)
+            ->map(function ($requestTag) {
+                return $requestTag->text;
+            });
     }
 }
