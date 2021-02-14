@@ -51,7 +51,17 @@ class ArticleController extends Controller
     // 記事編集画面
     public function edit(Article $article) {
 
-        return view('articles.edit', ['article' => $article]);
+        // Vue_Tags_Inputでは、'text'というキーがついている必要があるので、
+        // mapメソッドを使用して同様の連想配列を作っている
+        $tagNames = $article->tags->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
+        // bladeに$tagNamesという変数で渡すようにしている
+        return view('articles.edit', [
+            'article' => $article,
+            'tagNames' => $tagNames,
+        ]);
 
     }
 
@@ -59,6 +69,14 @@ class ArticleController extends Controller
     public function update(ArticleRequest $request, Article $article) {
 
         $article->fill($request->all())->save();
+
+        $article->tags()->detach();
+
+        $request->tags->each(function ($tagName) use ($article) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $article->tags()->attach($tag);
+        });
+
         return redirect()->route('articles.index');
     }
 
