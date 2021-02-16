@@ -5,9 +5,8 @@
 </div>
 <div class="form-group">
     <article-tags-input
+        :initial-tags='@json($tagNames ?? [])'
     >
-    :initial-tags='@json($tagNames ?? [])'
-    </article-tags-input>
 </div>
 <div class="form-group">
 <label></label>
