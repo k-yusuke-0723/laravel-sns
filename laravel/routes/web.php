@@ -26,3 +26,7 @@ Route::prefix('articles')->name('articles.')->group(function() {
 
 // タグ毎の一覧画面作成するルーティング設定
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
+
+Route::prefix('users')->name('users.')->group(function() {
+    Route::get('/{name}', 'UserController@show')->name('show');
+});
