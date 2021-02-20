@@ -10,4 +10,10 @@ class Tag extends Model
     protected $fillable = [
         'name',
     ];
+
+    // ハッシュタグ表示用のアクセサ
+    public function getHashtagAttribute(): string {
+
+        return '#' . $this->name;
+    }
 }
